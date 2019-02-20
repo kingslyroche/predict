@@ -13,23 +13,14 @@ app = Flask(__name__)
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.secret_key = r'_5#y2L"F4Q8zsdfsdfec]/'
-model = None
-graph = []
+model = ResNet50(weights="imagenet")
+graph = tf.get_default_graph()
+
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-def load_model():
-    # load the pre-trained Keras model (here we are using a model
-    # pre-trained on ImageNet and provided by Keras, but you can
-    # substitute in your own networks just as easily)
-    global model
-    global graph
-    model = ResNet50(weights="imagenet")
-    graph = tf.get_default_graph()
 
 
 def prepare_image(image, target):
